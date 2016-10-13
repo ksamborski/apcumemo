@@ -1,8 +1,6 @@
 #apcumemo
 PHP library for memoization function results based on it's arguments.
 
-![Build Status](https://travis-ci.org/ksamborski/apcumemo.svg?branch=master)
-
 ## Requirements
 
 You need to have acpu extension installed for php >= 7.0.0
