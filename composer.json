@@ -2,7 +2,7 @@
     "name": "ksamborski/apcu-memo",
     "require": {
         "php": ">=7.0.0",
-        "apcu": "*"
+        "ext-apcu": "*"
     },
     "license": "MIT",
     "autoload": {
