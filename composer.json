@@ -1,0 +1,13 @@
+{
+    "name": "ksamborski/apcu-memo",
+    "require": {
+        "php": ">=7.0.0",
+        "apcu": "*"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4" : {
+            "APCuMemo\\" : "APCuMemo"
+        }
+    }
+}
