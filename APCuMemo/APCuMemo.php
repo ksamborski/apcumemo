@@ -7,7 +7,9 @@ class APCuMemo
     /**
      * Provides basic memoization on function's arguments.
      * @param $function Function taking all provided arguments ($args) and computing the result when cache doesn't exist.
-     * @param $opts Array of options. Currently only 'ttl' key is supported.
+     * @param $opts Array of options. Supported are:
+     *              - ttl (Time To Live)
+     *              - renew (when true every fetch from cache will reset the ttl), default true
      * @param $args Arguments on which function's result depends. They have to be convertible to string.
      * @return mixed Returns whatever provided function returns.
      */
@@ -18,8 +20,10 @@ class APCuMemo
             $fetched = false;
             $value = apcu_fetch($key, $fetched);
             if ($fetched) {
-                apcu_delete($key);
-                apcu_store($key, $value, array_key_exists('ttl', $opts) ? $opts['ttl'] : 3600);
+                if (!array_key_exists('renew', $opts) || $opts['renew'] === true) {
+                    apcu_delete($key);
+                    apcu_store($key, $value, array_key_exists('ttl', $opts) ? $opts['ttl'] : 3600);
+                }
             } else {
                 $value = call_user_func_array($function, $args);
                 apcu_store($key, $value, array_key_exists('ttl', $opts) ? $opts['ttl'] : 3600);
