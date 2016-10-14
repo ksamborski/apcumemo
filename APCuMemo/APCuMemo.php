@@ -10,6 +10,7 @@ class APCuMemo
      * @param $opts Array of options. Supported are:
      *              - ttl (Time To Live)
      *              - renew (when true every fetch from cache will reset the ttl), default true
+     *              - validate (function that decides whether value should be cached or not), default null
      * @param $args Arguments on which function's result depends. They have to be convertible to string.
      * @return mixed Returns whatever provided function returns.
      */
@@ -26,12 +27,18 @@ class APCuMemo
                 }
             } else {
                 $value = call_user_func_array($function, $args);
-                apcu_store($key, $value, array_key_exists('ttl', $opts) ? $opts['ttl'] : 3600);
+                $store = array_key_exists('validate', $opts) ? call_user_func($opts['validate'], $value) : true;
+                if ($store === true) {
+                    apcu_store($key, $value, array_key_exists('ttl', $opts) ? $opts['ttl'] : 3600);
+                }
             }
             return $value;
         } else {
             $value = call_user_func_array($function, $args);
-            apcu_store($key, $value, array_key_exists('ttl', $opts) ? $opts['ttl'] : 3600);
+            $store = array_key_exists('validate', $opts) ? call_user_func($opts['validate'], $value) : true;
+            if ($store === true) {
+                apcu_store($key, $value, array_key_exists('ttl', $opts) ? $opts['ttl'] : 3600);
+            }
             return $value;
         }
     }

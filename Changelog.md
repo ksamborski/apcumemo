@@ -1,3 +1,9 @@
+## 0.3
+
+Features:
+
+  - added 'validate' option that is a function that decides whether value should be cached or not
+
 ## 0.2
 
 Features:
