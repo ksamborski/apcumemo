@@ -22,7 +22,7 @@ Consider this example:
 
 ```php
 
-use APCuMemo;
+use APCuMemo\APCuMemo;
 
 function sumrange($a, $b)
 {
