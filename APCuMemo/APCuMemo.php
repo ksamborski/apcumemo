@@ -42,5 +42,27 @@ class APCuMemo
             return $value;
         }
     }
+
+    /**
+     * Function clears cache for provided name. When additional arguments are
+     * also provided it will destroy cache only for these arguments. Otherwise
+     * it will clear whole cache for given name.
+     * @param string $name The same name that was used for the memoize function
+     * @param $args If provided will destroy cache only for that arguments,
+     *              otherwise whole cache for given name will be wiped out.
+     * @return void
+     */
+    public static function clear(string $name, ...$args)
+    {
+        $keys = [];
+        $suffix = implode("\\$", array_map("sha1", $args));
+        foreach (new \APCUIterator('/^'. $name . '_' . $suffix . '/', APC_ITER_KEY) as $cache) {
+            $keys[] = $cache['key'];
+        }
+
+        if (!empty($keys)) {
+            apcu_delete($keys);
+        }
+    }
 }
 

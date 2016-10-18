@@ -1,3 +1,9 @@
+## 0.4
+
+Features:
+
+  - added 'clear' function
+
 ## 0.3
 
 Features:
